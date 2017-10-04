@@ -1,0 +1,14 @@
+body {
+  font-family: sans-serif;
+  padding: 10%;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s color ease;
+  color: #00bcd4;
+}
+
+a:hover {
+  color: #4dd0e1;
+}
