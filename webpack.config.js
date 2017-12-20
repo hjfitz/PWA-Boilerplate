@@ -1,5 +1,7 @@
 const Notifier = require("webpack-build-notifier");
 
+const ping = new Notifier({ title: `${process.env.SITE_NAME || "Built"}` });
+
 const path = require('path');
 const output = path.join(__dirname, 'public');
 
@@ -38,5 +40,5 @@ module.exports = {
       } 
     ] 
   },
-  plugins: [new Notifier({ title: `${process.env.SITE_NAME || "Built"}` })]
+  plugins: [ping]
 };
