@@ -1,0 +1,27 @@
+/**
+ * Keep the server in it's own file.
+ * Eventually, we will add a socket server for the chat app
+ */
+
+// main deps
+const http = require('http');
+require('local-env-var')();
+
+// load our server stuff
+const app = require('../app');
+
+// default to a given port
+const port = process.env.PORT || 5000;
+
+// set express var here as we need to attach to http server
+app.set('port', port);
+
+// create server object for socket + express
+const server = http.createServer(app);
+
+// start a http server
+server.listen(port);
+
+// inform us of the running server
+/* eslint-disable */
+server.on("listening", () => console.log(`Server running on port http://localhost:${port}`));

@@ -1,20 +1,27 @@
 const express = require("express");
 const path = require("path");
+const compression = require('compression')();
+const logger = require('morgan')('dev');
+const helmet = require('helmet')();
 
+/**
+ * app vars
+ */
 const app = express();
-const port = process.env.PORT || 5000;
+const pub = path.join(__dirname, 'public');
+const index = path.join(pub, 'index.html');
 
-app.use("/public", express.static(path.join(__dirname, "public")));
-app.use("/", express.static(path.join(__dirname, "webpages")));
+/**
+ * express middleware
+ */
+app.use('/public', express.static(pub));
+app.use(compression);
+app.use(logger);
+app.use(helmet);
 
-app.use("/", (req, res, next) => {
-  console.log(new Date(), req.method, req.url);
-  next();
-});
 
-// make sure that this middleware is used LAST
-app.use("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
+// used for react - enables client-side routing
+app.get('*', (req, res) => res.sendFile(index));
 
-app.listen(port);
+// export for bin/www
+module.exports = app;

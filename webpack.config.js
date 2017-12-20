@@ -1,23 +1,42 @@
 const Notifier = require("webpack-build-notifier");
 
+const path = require('path');
+const output = path.join(__dirname, 'public');
+
+
 module.exports = {
-  entry: ["babel-polyfill", "./src/react-components/router.jsx"],
-  output: {
-    path: `${__dirname}/public/javascripts`,
-    filename: "bundle.js"
+  entry: { bundle: ['./src/client/router.jsx']  },
+  output: { 
+    filename: '[name].js',
+    path:  output
   },
-  devtool: "source-map",
-  module: {
-    loaders: [
+  devtool: 'source-map',
+  resolve: {
+    extensions: [".js", ".jsx", ".json", ".css"]
+  },
+  module: { 
+    loaders: [ 
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
         query: {
-          presets: ["es2015", "react"]
+          presets: [
+            ['env', { targets: { 
+              browsers: [
+                'chrome > 60',
+                'not ie < 10'
+              ] 
+            } }],
+            'react',
+          ]
         }
-      }
-    ]
+      } 
+    ] 
   },
   plugins: [new Notifier({ title: `${process.env.SITE_NAME || "Built"}` })]
 };
