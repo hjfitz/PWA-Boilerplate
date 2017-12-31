@@ -1,5 +1,11 @@
 # React Boilerplate - _with_ JSX
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![David](https://img.shields.io/david/hjfitz/boilerplate-react.svg)]()
+
 An express.js server with additional tooling set up for react.js. Ideal for starting off a personal project, or a hackathon just right
+
+
+
 
 ## Setup
 Install the dependencies. This is done with `yarn` (recommended), or plain ol' `npm install` (also pretty good).
