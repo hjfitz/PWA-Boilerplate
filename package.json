@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node bin/www",
     "build": "webpack",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "clean": "rm -rf .git"
   },
   "dependencies": {
     "babel-core": "^6.26.0",

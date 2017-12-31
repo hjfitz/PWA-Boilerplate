@@ -28,12 +28,15 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: [
-            ['env', { targets: { 
-              browsers: [
-                'chrome > 60',
-                'not ie < 10'
-              ] 
-            } }],
+            ['env', { 
+              targets: { 
+                browsers: [
+                  'last 2 versions',
+                  'ie >= 11'
+                ] 
+              },
+              debug: true,
+            }],
             'react',
           ]
         }
