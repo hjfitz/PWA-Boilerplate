@@ -5,8 +5,6 @@
 An express.js server with additional tooling set up for react.js. Ideal for starting off a personal project, or a hackathon just right
 
 
-
-
 ## Setup
 Install the dependencies. This is done with `yarn` (recommended), or plain ol' `npm install` (also pretty good).
 
@@ -42,6 +40,13 @@ Because we're using React with JSX, the JSX has to be built. A polyfill (set up 
 If you want to keep building after a file's saved:
 
 - `npm run watch`
+
+
+**Note:** This boilerplate includes a service worker, setup to cache the bundle and index file. 
+
+To ensure that you can view your changes, in the developer console, go to application, click 'service workers' and select 'bypass for network'.
+
+The code for the worker is under `public/javascripts/worker.js`. 
 
 ## I've cloned this from git, how do I attach it to my own?
 

@@ -19,8 +19,17 @@ app.use(compression);
 app.use(logger);
 app.use(helmet);
 
+/**
+ * middleware for service worker
+ * Needed to use /worker to enable the worker to use the
+ * entire project dir for cache (if necessary)
+ */
+app.get('/worker.js', (req, res) => res.sendFile(path.join(pub, 'javascripts', 'worker.js')));
 
-// used for react - enables client-side routing
+/**
+ * This middle must be the last one set up
+ * used for react - enables client-side routing
+ */
 app.get('*', (req, res) => res.sendFile(index));
 
 // export for bin/www

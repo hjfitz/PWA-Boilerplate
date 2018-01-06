@@ -16,9 +16,13 @@ import { Home } from './components/pages';
  */
 import './styles/main';
 
+/**
+ * import service worker
+ */
+import './worker';
+
 // scroll the app to the top on a route change
 const onUpdate = () => window.scrollTo(0, 0);
-
 
 // our client-side router
 const router = (
