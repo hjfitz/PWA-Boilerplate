@@ -3,6 +3,7 @@ const path = require('path');
 const compression = require('compression')();
 const logger = require('morgan')('dev');
 const helmet = require('helmet')();
+const api = require('./src/server/routes');
 
 /**
  * app vars
@@ -17,6 +18,7 @@ const worker = path.join(pub, 'javascripts', 'worker.js');
  * express middleware
  */
 app.use('/public', express.static(pub));
+app.use('/api', api);
 app.use(compression);
 app.use(logger);
 app.use(helmet);
@@ -27,7 +29,7 @@ app.use(helmet);
  * entire project dir for cache (if necessary)
  */
 app.get('/worker.js', (req, res) => res.sendFile(worker));
-app.get('/offline', (req, res) => res.sendFile(offline));
+app.get('/offline.html', (req, res) => res.sendFile(offline));
 /**
  * This middle must be the last one set up
  * used for react - enables client-side routing
