@@ -1,4 +1,4 @@
-# React Boilerplate - _with_ JSX
+# PWA Boilerplate
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![David](https://img.shields.io/david/hjfitz/boilerplate-react.svg)]()
 
@@ -7,6 +7,11 @@ An express.js server with additional tooling set up for react.js. Ideal for star
 
 ## Setup
 Install the dependencies. This is done with `yarn` (recommended), or plain ol' `npm install` (also pretty good).
+
+To streamline the entire setup, a `yarn setup` script is present. It does the following:
+- Installs dependencies
+- Removes the link to my git repo
+- Generates some self-signed SSL certificates for local HTTPS
 
 ### React
 React is set up under `src/client` with `react-router-4` for client-side routing. 
@@ -47,10 +52,3 @@ If you want to keep building after a file's saved:
 To ensure that you can view your changes, in the developer console, go to application, click 'service workers' and select 'bypass for network'.
 
 The code for the worker is under `public/javascripts/worker.js`. 
-
-## I've cloned this from git, how do I attach it to my own?
-
-1. Remove the .git folder - `npm run clean`
-2. Initialise the folder as a git repository - `git init`
-3. Remotely add your repo - `git remote add origin ${path-to-git-repo}`
-4. Push! `git push -u origin master`

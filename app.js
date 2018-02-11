@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const compression = require('compression')();
 const logger = require('morgan')('dev');
+const forceSSL = require('express-force-ssl');
 const helmet = require('helmet')();
 const api = require('./src/server/routes');
 
@@ -22,6 +23,15 @@ app.use('/api', api);
 app.use(compression);
 app.use(logger);
 app.use(helmet);
+
+if (process.env.ENABLE_HTTPS === 'true') {
+  app.set('forceSSLOptions', {
+    trustXFPHeader: true,
+    sslRequireMessage: 'SSL Required',
+  });
+
+  app.use(forceSSL);
+}
 
 /**
  * middleware for service worker

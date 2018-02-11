@@ -11,7 +11,7 @@
     "clean": "rm -rf .git",
     "postinstall": "npm run build",
     "lint": "eslint app.js bin/www src/**/*.js src/**/*.js",
-    "gen-ssl": "openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365",
+    "gen-ssl": "openssl req -nodes -x509 -newkey rsa:4096 -keyout server-key.pem -out server-cert.pem -days 365",
     "setup": "yarn; yarn clean; yarn gen-ssl"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "compression": "^1.7.1",
     "css-loader": "^0.28.7",
     "express": "^4.15.4",
+    "express-force-ssl": "^0.3.2",
     "helmet": "^3.9.0",
     "local-env-var": "^2.0.1",
     "morgan": "^1.9.0",

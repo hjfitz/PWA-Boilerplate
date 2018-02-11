@@ -8,7 +8,7 @@ const toCache = [
   '/',
   '/index.html',
   // bundle contains all of our CSS
-  '/public/bundle.js',
+  '/public/javascripts/bundle.js',
   // for when we're offline
   '/offline.html',
 ];
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
     const cachedResponse = await caches.match(request, { cacheName });
     if (cachedResponse) return cachedResponse;
     // if we're offline and requesting a page, return the index file. this mimics the express.js setup.
-    if (!navigator.onLine && reqPage(request)) return caches.match('index.html');
+    // if (!navigator.onLine && reqPage(request)) return caches.match('index.html');
     return fetch(event.request).catch(err => {
       console.log('Fetch failed; returning offline page instead.', err);
       return caches.match('/offline.html');
