@@ -4,7 +4,9 @@ const compression = require('compression')();
 const logger = require('morgan')('dev');
 const forceSSL = require('express-force-ssl');
 const helmet = require('helmet')();
+
 const api = require('./src/server/routes');
+const log = require('./src/server/logger');
 
 /**
  * app vars
@@ -25,6 +27,7 @@ app.use(logger);
 app.use(helmet);
 
 if (process.env.ENABLE_HTTPS === 'true') {
+  log('debug', 'app.js', 'forcing SSL');
   app.set('forceSSLOptions', {
     trustXFPHeader: true,
     sslRequireMessage: 'SSL Required',
@@ -45,6 +48,8 @@ app.get('/offline.html', (req, res) => res.sendFile(offline));
  * used for react - enables client-side routing
  */
 app.get('*', (req, res) => res.sendFile(index));
+
+log('debug', 'app.js', 'express initialised');
 
 // export for bin/www
 module.exports = app;

@@ -1,6 +1,6 @@
 const io = require('socket.io');
+const log = require('../logger');
 
-const logger = (...sauce) => console.log('[socket]', sauce);
 const sockets = [];
 
 const emitAll = (type, payload) => {
@@ -8,20 +8,20 @@ const emitAll = (type, payload) => {
 };
 
 const conn = sck => {
-  logger(`${sck.id} connected`);
+  log('debug', 'src/server/socket', `${sck.id} connected`);
 
   // update the list of websocket clients
   sockets.push(sck);
-  logger(`${sockets.length} total sockets connected`);
+  log('debug', 'src/server/socket', `${sockets.length} total sockets connected`);
 
   // respond to pings
-  sck.on('keepalive', () => logger(`${sck.id} pinged`));
+  sck.on('keepalive', () => log('debug', 'src/server/socket', `${sck.id} pinged`));
 
   sck.on('disconnect', () => {
     const index = sockets.indexOf(sck);
     if (index !== -1) sockets.splice(index, 1);
-    logger(`${sck.id} disconnected.`);
-    logger(`${sockets.length} sockets remain`);
+    log('debug', 'src/server/socket', `${sck.id} disconnected.`);
+    log('debug', 'src/server/socket', `${sockets.length} sockets remain`);
   });
 };
 
