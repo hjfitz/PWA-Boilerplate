@@ -40,16 +40,11 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "auto-sni": "^2.3.2",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "greenlock": "^2.1.18",
-    "le-challenge-fs": "^2.0.8",
-    "le-challenge-sni": "^2.0.1",
-    "le-store-certbot": "^2.0.5",
     "nodemon": "^1.14.12"
   }
 }
