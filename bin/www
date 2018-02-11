@@ -5,7 +5,11 @@
 
 // main deps
 const http = require('http');
-require('local-env-var')();
+const https = require('https');
+const { readFileSync } = require('fs');
+const socket = require('../src/server/socket');
+
+require('local-env-var');
 
 // load our server stuff
 const app = require('../app');
@@ -17,11 +21,25 @@ const port = process.env.PORT || 5000;
 app.set('port', port);
 
 // create server object for socket + express
-const server = http.createServer(app);
+let server = http.createServer(app);
+if (process.env.ENABLE_HTTPS === 'true') {
+  console.log('[server] Using HTTPS');
+  const options = {
+    key: readFileSync('server-key.pem'),
+    cert: readFileSync('server-cert.pem'),
+  };
+
+  server = https.createServer(options, app);
+}
 
 // start a http server
 server.listen(port);
 
+// bind a websocket, if we desire
+if (process.env.ENABLE_SOCKET === 'true') {
+  socket.bind(server);
+}
+
 // inform us of the running server
 /* eslint-disable */
-server.on("listening", () => console.log(`Server running on port http://localhost:${port}`));
+server.on("listening", () => console.log(`Server running on port //localhost:${port}`));

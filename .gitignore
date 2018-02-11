@@ -1,3 +1,15 @@
+# would you even consider uploading this?
 node_modules/
+
+# If you use vim
 *.swp
-public/bundle*
+
+# Don't upload the generated bundle
+# It's better to freshly build it
+public/javascripts/bundle*
+
+# SSL Certs
+*.pem
+
+# Environment variables
+.env
