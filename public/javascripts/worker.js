@@ -1,12 +1,10 @@
 // change this
-const cacheName = 'pwa-boilerplate-1';
+const cacheName = 'pwa-YOURNAMEHERE-1';
 
 // on *, app.js serves our index file
 // we can be lazy and request /index.html
 // this gets redirected to our layout file
 const toCache = [
-  '/',
-  '/index.html',
   // bundle contains all of our CSS
   '/public/javascripts/bundle.js',
   // for when we're offline
@@ -30,7 +28,8 @@ self.addEventListener('install', async event => {
   event.waitUntil((async function installEvent() {
     const cache = await caches.open(cacheName);
     console.log(`Adding ${toCache} to cache.`);
-    return cache.addAll(toCache);
+    await cache.addAll(toCache);
+    return self.skipWaiting();
   }()));
 });
 
