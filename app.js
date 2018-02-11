@@ -1,5 +1,5 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const compression = require('compression')();
 const logger = require('morgan')('dev');
 const helmet = require('helmet')();
@@ -10,6 +10,8 @@ const helmet = require('helmet')();
 const app = express();
 const pub = path.join(__dirname, 'public');
 const index = path.join(pub, 'index.html');
+const offline = path.join(pub, 'offline.html');
+const worker = path.join(pub, 'javascripts', 'worker.js');
 
 /**
  * express middleware
@@ -24,8 +26,8 @@ app.use(helmet);
  * Needed to use /worker to enable the worker to use the
  * entire project dir for cache (if necessary)
  */
-app.get('/worker.js', (req, res) => res.sendFile(path.join(pub, 'javascripts', 'worker.js')));
-
+app.get('/worker.js', (req, res) => res.sendFile(worker));
+app.get('/offline', (req, res) => res.sendFile(offline));
 /**
  * This middle must be the last one set up
  * used for react - enables client-side routing
