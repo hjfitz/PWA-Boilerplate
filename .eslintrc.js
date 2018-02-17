@@ -10,7 +10,8 @@ module.exports = {
     "react/forbid-prop-types": [0],
     "import/extensions": 0,
     "arrow-parens": ["error", "as-needed"],
-    "no-return-assign": 0
+    "no-return-assign": 0,
+    "no-nested-ternary": 0
   },
   "env": {
    "browser": true,

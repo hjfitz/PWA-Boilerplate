@@ -13,7 +13,7 @@ require('local-env-var');
 
 // load our server stuff
 const app = require('../app');
-const log = require('../src/server/logger');
+const { log } = require('../src/server/logger');
 
 // default to a given port
 const port = process.env.PORT || 5000;

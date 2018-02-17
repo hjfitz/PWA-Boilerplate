@@ -1,5 +1,5 @@
 const io = require('socket.io');
-const log = require('../logger');
+const { log } = require('../logger');
 
 const sockets = [];
 

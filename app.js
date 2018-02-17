@@ -1,12 +1,17 @@
+/**
+ * required for express
+ */
 const express = require('express');
 const path = require('path');
 const compression = require('compression')();
-const logger = require('morgan')('dev');
 const forceSSL = require('express-force-ssl');
 const helmet = require('helmet')();
 
+/**
+ * express routers
+ */
 const api = require('./src/server/routes');
-const log = require('./src/server/logger');
+const { log, morgan } = require('./src/server/logger');
 
 /**
  * app vars
@@ -17,22 +22,26 @@ const index = path.join(pub, 'index.html');
 const offline = path.join(pub, 'offline.html');
 const worker = path.join(pub, 'javascripts', 'worker.js');
 
+
 /**
  * express middleware
  */
+app.use(helmet);
+app.use(compression);
+// app.use(logger);
 app.use('/public', express.static(pub));
 app.use('/api', api);
-app.use(compression);
-app.use(logger);
-app.use(helmet);
 
+/**
+ * If we're enforcing an SSL server
+ * make sure to reroute HTTP requests to that server
+ */
 if (process.env.ENABLE_HTTPS === 'true') {
   log('debug', 'app.js', 'forcing SSL');
   app.set('forceSSLOptions', {
     trustXFPHeader: true,
     sslRequireMessage: 'SSL Required',
   });
-
   app.use(forceSSL);
 }
 
@@ -43,6 +52,9 @@ if (process.env.ENABLE_HTTPS === 'true') {
  */
 app.get('/worker.js', (req, res) => res.sendFile(worker));
 app.get('/offline.html', (req, res) => res.sendFile(offline));
+
+app.use(morgan);
+
 /**
  * This middle must be the last one set up
  * used for react - enables client-side routing

@@ -11,23 +11,14 @@ const toCache = [
   '/offline.html',
 ];
 
-/**
- * check that we're making a request to a webpage
- * because this boilerplate is intended for SPAs
- */
-const reqPage = request => {
-  const { mode, method, headers } = request;
-  const acceptsHTML = headers.get('accept').includes('text/html');
-  return (mode === 'navigate' || (method === 'GET' && acceptsHTML));
-};
-
+const log = (...sauce) => console.log('[WORKER]', ...sauce);
 /**
  * setup a cache and add items
  */
 self.addEventListener('install', async event => {
   event.waitUntil((async function installEvent() {
     const cache = await caches.open(cacheName);
-    console.log(`Adding ${toCache} to cache.`);
+    log(`Adding ${toCache} to cache.`);
     await cache.addAll(toCache);
     return self.skipWaiting();
   }()));
@@ -44,10 +35,10 @@ self.addEventListener('fetch', event => {
     // Try to get the response from a cache.
     const cachedResponse = await caches.match(request, { cacheName });
     if (cachedResponse) return cachedResponse;
-    // if we're offline and requesting a page, return the index file. this mimics the express.js setup.
-    // if (!navigator.onLine && reqPage(request)) return caches.match('index.html');
+    // if nothing's in the cache, return a fetch request
+    // catch an error to serve offline pages
     return fetch(event.request).catch(err => {
-      console.log('Fetch failed; returning offline page instead.', err);
+      log('Fetch failed; returning offline page instead.', err);
       return caches.match('/offline.html');
     });
   }());
