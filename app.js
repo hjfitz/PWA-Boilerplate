@@ -6,6 +6,7 @@ const path = require('path');
 const compression = require('compression')();
 const forceSSL = require('express-force-ssl');
 const helmet = require('helmet')();
+const bodyParser = require('body-parser');
 
 /**
  * express routers
@@ -28,7 +29,8 @@ const worker = path.join(pub, 'javascripts', 'worker.js');
  */
 app.use(helmet);
 app.use(compression);
-// app.use(logger);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(pub));
 app.use('/api', api);
 
