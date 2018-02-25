@@ -1,5 +1,4 @@
 const winston = require('winston');
-const morgan = require('morgan');
 const chalk = require('chalk');
 
 const tsFormat = () => (new Date()).toLocaleTimeString();
@@ -17,33 +16,33 @@ const logger = new (winston.Logger)({
 logger.level = process.env.LOG_LEVEL || 'debug';
 
 
-const colorify = num => (num < 200 ? chalk.magenta(num)
-  : num < 300 ? chalk.green(num)
-    : num < 400 ? chalk.blue(num)
-      : num < 500 ? chalk.yellow(num)
-        : chalk.red(num));
+const colorify = num => {
+  if (num < 200) return chalk.magenta(num);
+  if (num < 300) return chalk.green(num);
+  if (num < 400) return chalk.blue(num);
+  if (num < 500) return chalk.yellow(num);
+  return chalk.red(num);
+};
 
-morgan.token('status', (req, res) => {
-  const headersSent = (typeof res.headersSent !== 'boolean')
-    ? Boolean(res._header)
-    : res.headersSent;
-  if (!headersSent) {
-    return undefined;
-  }
-  return colorify(res.statusCode);
-});
+const getResponseTime = (req, res) => {
+  if (!req._startAt || !res._startAt) return '-';
+  const begin = req._startAt;
+  const end = res._startAt;
+  const diff =
+    ((end[0] - begin[0]) * 1e3) +
+    ((end[1] - begin[1]) * 1e6);
+  return `${diff.toFixed(3)}ms`;
+};
 
-
-// custom morgan logging to fit in with winston
-const appLogger = (morgan((tokens, req, res) => [
-  (new Date()).toLocaleTimeString(),
-  `- ${chalk.magenta('express')}:`,
-  tokens.method(req, res),
-  tokens.url(req, res),
-  tokens.status(req, res),
-  tokens.res(req, res, 'content-length'), '-',
-  tokens['response-time'](req, res), 'ms',
-].join(' ')));
+const expressLogger = (req, res, next) => {
+  const time = (new Date()).toLocaleTimeString();
+  const prefix = chalk.magenta('express');
+  const { originalUrl, method } = req;
+  const status = colorify(res.statusCode);
+  const responseTime = getResponseTime(req, res);
+  console.log(`${time} - ${prefix}: ${method} ${originalUrl} ${status} ${responseTime}`);
+  next();
+};
 
 /**
  * Log some strings
@@ -58,6 +57,6 @@ const log = (level, mod, msg) => {
 };
 
 module.exports = {
-  log,
-  morgan: appLogger,
+  logger: log,
+  expressLogger,
 };

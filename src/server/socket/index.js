@@ -1,5 +1,5 @@
 const io = require('socket.io');
-const { log } = require('../logger');
+const { logger } = require('../logger');
 
 const sockets = [];
 
@@ -8,20 +8,20 @@ const emitAll = (type, payload) => {
 };
 
 const conn = sck => {
-  log('debug', 'src/server/socket', `${sck.id} connected`);
+  logger('debug', 'src/server/socket', `${sck.id} connected`);
 
   // update the list of websocket clients
   sockets.push(sck);
-  log('debug', 'src/server/socket', `${sockets.length} total sockets connected`);
+  logger('debug', 'src/server/socket', `${sockets.length} total sockets connected`);
 
   // respond to pings
-  sck.on('keepalive', () => log('debug', 'src/server/socket', `${sck.id} pinged`));
+  sck.on('keepalive', () => logger('debug', 'src/server/socket', `${sck.id} pinged`));
 
   sck.on('disconnect', () => {
     const index = sockets.indexOf(sck);
     if (index !== -1) sockets.splice(index, 1);
-    log('debug', 'src/server/socket', `${sck.id} disconnected.`);
-    log('debug', 'src/server/socket', `${sockets.length} sockets remain`);
+    logger('debug', 'src/server/socket', `${sck.id} disconnected.`);
+    logger('debug', 'src/server/socket', `${sockets.length} sockets remain`);
   });
 };
 
